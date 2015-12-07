@@ -1,0 +1,20 @@
+gStyle->SetOptStat(1111111)
+
+TPython::LoadMacro("radmonFills.py");
+RadmonFills f;
+f.init(4522)
+f.drawRate(5)
+
+f.drawRunningSum(5, 5)
+
+
+
+============================
+TPython::LoadMacro("plotFillLumi.py");
+PlotFillLumy f;
+f.makeHistos(4402);
+f.drawAll2png();
+
+
+f.drawHisto("bestLumi");
+f.drawHisto("radmon", "same");

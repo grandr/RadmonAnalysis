@@ -1,0 +1,40 @@
+[Env]
+lumiprefix:       	/afs/cern.ch/work/g/grandr/Bril/Lumidata/lumi
+; fills:                  3960, 3962
+                        
+fills:                  3960, 3962, 3965, 3971, 3974, 3976, 3981, 3983, 3986, 3988, 3992, 3996, 4001, 4006, 4008, 4019, 4020, 4201, 4205, 4207,
+                        4208, 4210, 4211, 4212, 4214, 4219, 4220, 4224, 4225, 4231, 4243, 4246, 4249, 4254, 4256, 4257, 4266, 4268, 4269, 4322,
+                        4323, 4332, 4337, 4341, 4342, 4349, 4356, 4360, 4363, 4364, 4376, 4381, 4384, 4386, 4391, 4393, 4397, 4398, 4402, 4410,
+                        4418, 4420, 4423, 4426, 4428, 4432, 4434, 4435, 4437, 4440, 4444, 4448, 4449, 4452, 4455, 4462, 4463, 4464, 4466, 4467,
+                        4476, 4477, 4479, 4485, 4495, 4496, 4499, 4505, 4509, 4510, 4511, 4513, 4518, 4519, 4522, 4525, 4528, 4530, 4532, 4536,
+                        4538, 4540, 4545, 4555, 4557, 4560, 4562, 4565, 4569
+
+[Misc]
+time_format:		%Y.%m.%d %H:%M:%S
+time_zone:		Europe/Zurich
+minutes_before:		10
+minutes_after:		10
+
+[DB]
+connstr:		cms_trk_r/1A3C5E7G:FIN@cms_omds_lb
+dbtime_format:		yyyy.mm.dd hh24:mi:ss
+
+; qtemplate:		SELECT to_char(diptime,'datetimeformat') ts,HFINSTLUMI, bcm1lumi
+; 			FROM CMS_BRM_COND.BCM1F_LUMI
+; 			WHERE DIPTIME BETWEEN TO_TIMESTAMP('dt_start', 'datetimeformat')
+; 			and  TO_TIMESTAMP('dt_stop', 'datetimeformat')
+; ; 			ORDER BY DIPTIME
+
+qtemplate:              SELECT 
+                        lm.fill, lm.run, lm.lumisection, lm.luminibble,
+                        lm.diptime diptimestamp,
+                        ls.STARTTIME ls_start,ls.STOPTIME ls_stop,ls.INSTLUMI ls_instlumi,
+                        lm.instlumi, lm.hf_instlumi,lm.bcmf_instlumi,
+                        lm.pltzero_instlumi,lm.plt_instlumi,rs.injectionscheme,rs.begintime fill_begin, rs.endtime fill_end
+                        from CMS_BEAM_COND.CMS_BRIL_LUMINOSITY lm
+                        join cms_runtime_logger.lumi_sections ls on (lm.fill=ls.lhcfill and lm.run=ls.runnumber and lm.lumisection=ls.lumisection)
+                        join cms_runtime_logger.runtime_summary rs on (ls.lhcfill=rs.lhcfill)
+                        where rs.injectionscheme is not null
+                        and lm.fill=__XXX__ 
+                        ORDER BY DIPTIME
+

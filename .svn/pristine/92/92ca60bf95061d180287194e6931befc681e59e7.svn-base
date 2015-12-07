@@ -1,0 +1,23 @@
+TPython::LoadMacro("radmonPlots.py")
+RadmonPlots p;
+p.MakeChain();
+p.BookTimeHisto2("hradmon", "HFradmon", 400, "2015-07-14 07:00", "2015-07-14 11:30", 500, 0, 5000);
+hradmon.Clone("hbril");
+hbril.SetTitle("bril");
+
+p.Draw("rates[5]:tstamp");
+
+f = TFile("/home/grandr/cms/Bril/Data/LumiData/lumiFill3996.root");
+gROOT->cd();
+TTree *tbril = f.Get("t");
+tbril.Draw("bcmf:secs-7200>>hbril");
+
+hradmon.Draw();
+
+TProfile *pbril = hbril->ProfileX();
+TProfile *pratio = hradmon->ProfileX();
+TProfile *pradmon = hradmon->ProfileX();
+
+pratio->Divide(pbril);
+
+pratio->Draw("hist");

@@ -1,0 +1,60 @@
+// radmonlumi files
+radmonlumi3960.root
+radmonlumi3962.root
+radmonlumi3965.root
+radmonlumi3971.root
+radmonlumi3974.root
+radmonlumi3976.root
+radmonlumi3981.root
+radmonlumi3983.root
+radmonlumi3986.root
+radmonlumi3988.root
+radmonlumi3992.root
+radmonlumi3996.root
+radmonlumi4008.root
+radmonlumi4201.root
+radmonlumi4220.root
+radmonlumi4224.root
+radmonlumi4225.root
+
+ 
+//Chain with radmonlumi files
+TChain ch("t");
+ch.Add("/run/media/grandr/ADATA/RadMonData/RadMonLumi/*.root");
+t.Draw("bcmf:rates[9]", "tsUtc-startFill>2400");
+
+// Draw lumi vs neutron rate for 50 ns & 25 ns operation
+// Primary Lumi
+t.Draw("primaryLumi:rates[9]", "tsUtc-startFill>3600&&fill<=4008");
+t.Draw("primaryLumi:rates[9]", "tsUtc-startFill>3600&&fill>4008", "same");
+// bcmf 
+t.Draw("bcmf:rates[9]", "tsUtc-startFill>3600&&fill<=4008");
+t.Draw("bcmf:rates[9]", "tsUtc-startFill>3600&&fill>4008", "same");
+
+//==========================================================================================
+
+// lumiRateGraphs.py
+TPython::LoadMacro("lumiRateGraphs.py");
+LumiRateGraphs p;
+p.makeGraphs();
+p.drawGraph("pnit");
+p.fitGraphs();
+p.printCalibrationData();
+
+p.setDeltaTs(2400)
+p.fixP0(1);
+p.setSelectedLumi("primaryLumi");
+
+
+
+=== plotFillLumi.py
+TPython::LoadMacro("plotFillLumi.py");
+PlotFillLumy f;
+f.makeHistos(3996);
+f.drawHisto("primaryLumi");
+f.drawHisto("radmon", "same");
+
+
+
+
+

@@ -1,0 +1,24 @@
+Make screen
+open tunnel
+ssh -L 8121:CMSRAC11-V:10121 cmsusr0
+
+setenv TNS_ADMIN $PWD (location of tnsnames.ora)
+
+Content of tnsnames.ora
+
+
+
+CMS_OMDS_LB=(
+     DESCRIPTION=
+     (ADDRESS= (PROTOCOL=TCP) (HOST=127.0.0.1) (PORT=8121) )
+     (CONNECT_DATA=
+         (SERVICE_NAME=cmsonr.cern.ch)
+     )
+)
+CMS_OMDS_NOLB=(
+     DESCRIPTION=
+     (ADDRESS= (PROTOCOL=TCP) (HOST=127.0.0.1) (PORT=8121) )
+     (CONNECT_DATA=
+         (SERVICE_NAME=cmsonr.cern.ch)
+     )
+)
