@@ -9,7 +9,6 @@ import sys, os
 from array import array
 from ROOT import *
 import math
-from array import array
 from xutils import *
 from fillReport import *
 import numpy as np
