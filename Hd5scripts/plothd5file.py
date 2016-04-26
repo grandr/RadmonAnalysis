@@ -19,7 +19,6 @@ f.plotFluxAll()
 
 """
 
-
 import sys, os
 from ROOT import *
 import math
@@ -35,8 +34,13 @@ import numpy as np
 import datetime as dt
 import time
 
-filesDefault = ['/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604222046_6.hd5',
-                '/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604221208_5.hd5'
+## Fill
+#filesDefault = ['/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604222046_6.hd5',
+                #'/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604221208_5.hd5'
+                #]
+                #Fill 4861
+filesDefault = ['/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604241600_11.hd5',
+                '/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604250039_12.hd5'
                 ]
 
 plotColors = [ROOT.kBlack, ROOT.kBlue, ROOT.kRed, ROOT.kGreen, ROOT.kPink]  
