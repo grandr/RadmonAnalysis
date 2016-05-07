@@ -125,4 +125,11 @@ def int2bin(n, count=16):
     return "".join([str((n >> y) & 1) for y in range(count-1, -1, -1)])
 
 
+def status2bitset(n):
+    """
+    returns list bits of integer n
+    """
+    b = '{0:b}'.format(n).zfill(16)[::-1]
+    return [int(x) for x in str(b)]
 
+    

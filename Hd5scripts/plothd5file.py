@@ -38,10 +38,17 @@ import time
 #filesDefault = ['/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604222046_6.hd5',
                 #'/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604221208_5.hd5'
                 #]
-                #Fill 4861
-filesDefault = ['/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604241600_11.hd5',
-                '/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604250039_12.hd5'
+                ##Fill 4861
+#filesDefault = ['/scr1/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604241600_11.hd5',
+                #'/scr1/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604250039_12.hd5'
+                #]
+                #Fill 4879
+#filesDefault = ['/scr1/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604281749_23.hd5',
+                #'/scr1/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604290227_24.hd5'
+                #]
+filesDefault = ['/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605061909_0.hd5',
                 ]
+
 
 plotColors = [ROOT.kBlack, ROOT.kBlue, ROOT.kRed, ROOT.kGreen, ROOT.kPink]  
 
@@ -83,7 +90,7 @@ class Hd5file:
         self.fill = no
         
     
-    def plotLumi(self):
+    def plotPlusMinusLumi(self):
         
         minusz = []
         plusz = []
@@ -148,7 +155,56 @@ class Hd5file:
         #self.gPlusZ.GetYaxis().SetLabelSize(0.055)
 
 
-        self.c.Update()        
+        self.c.Update()      
+        
+    def plotLumi(self):
+        
+        lumi = []
+        timestamps = []
+        self.gLumi = ROOT.TGraph()
+        
+        for file in self.files:
+            
+            try:
+                f = tables.open_file(file)
+            except Exception as e:
+                print e.__doc__
+                print e.message
+                continue
+            
+            for leaf in f.walk_nodes(where='/',classname="Leaf"):
+                if leaf.name == 'radmonlumi':
+                    data =  f.get_node(where='/',name="radmonlumi", classname="Leaf")            
+            
+                    for item in data:
+                        ts = item['timestampsec']
+                    
+                        if ts < self.tsStart or ts > self.tsEnd:
+                            continue
+                    
+                        if self.fill > 0   and  item['fillnum'] != self.fillno:
+                            continue
+                    
+                        n = self.gLumi.GetN()
+                        self.gLumi.SetPoint(n, float(ts), float(item['avg']))
+
+                        fillno = item['fillnum']
+                        
+        # Plot graphs
+        self.c = ROOT.TCanvas("c", "Lumi, Fill " +   str(fillno) , 800, 600)
+        self.gLumi.Draw("AL")
+        self.gLumi.GetXaxis().SetTimeFormat(self.timeFormat)
+        self.gLumi.GetXaxis().SetTimeFormat(self.timeFormat)
+
+        self.gLumi.SetLineColor(ROOT.kBlue)
+
+        # self.gLumi.GetXaxis().SetTitle("time")
+        # self.gLumi.GetXaxis().SetTitleOffset(0.1)
+
+        self.gLumi.SetTitle("Lumi, Fill " + str(fillno) )
+
+
+        self.c.Update()    
         
     def fillRateGraphs(self):
         
