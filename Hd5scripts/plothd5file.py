@@ -47,6 +47,13 @@ import time
                 #'/scr1/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604290227_24.hd5'
                 #]
 filesDefault = ['/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605061909_0.hd5',
+                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605070336_1.hd5',
+                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605071202_2.hd5',
+                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605072027_3.hd5',
+                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605080453_4.hd5',
+                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605081319_5.hd5',
+                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605082145_6.hd5',
+                
                 ]
 
 
@@ -295,6 +302,8 @@ class Hd5file:
                         self.fillno = item['fillnum']
                         
     def plotFluxAll(self):
+        #ROOT.gROOT.SetStyle("Plain")
+        #ROOT.gStyle.SetFillColor(0)
         self.c = ROOT.TCanvas("c", "Flux, Fill " +   str(self.fillno) , 800, 800)
         self.c.Divide(2,2)
         
@@ -307,7 +316,10 @@ class Hd5file:
                 id = self.indx[det]
                 self.fluxGraphs[id].SetTitle(det.upper())
                 self.fluxGraphs[id].SetLineColor(plotColors[j])
-                self.fluxGraphs[id].Draw("AL")
+                if j == 0: 
+                    self.fluxGraphs[id].Draw("AL")
+                else:
+                    self.fluxGraphs[id].Draw("L")
                 self.fluxGraphs[id].GetXaxis().SetTimeFormat(self.timeFormat)
                 self.fluxGraphs[id].GetXaxis().SetTimeDisplay(1)    
                 
