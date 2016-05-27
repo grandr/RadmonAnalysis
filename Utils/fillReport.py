@@ -44,7 +44,7 @@ class FillReport:
         """
         if fillNo is None:
             tsCreation = {}
-            for fill in self.fillData.keys():
+            for key in self.fillData.keys():
                 tsCreation[key] = datime2tsDot(self.fillData[key][1].strip())
             return tsCreation
         else:
@@ -57,7 +57,7 @@ class FillReport:
         """
         if fillNo is None:
             tsStable = {}
-            for fill in self.fillData.keys():
+            for key in self.fillData.keys():
                 tsStable[key] = datime2tsDot(self.fillData[key][11].strip())
             return tsStable
         else:
@@ -70,7 +70,7 @@ class FillReport:
         """
         if fillNo is None:
             tsEnd = {}
-            for fill in self.fillData.keys():
+            for key in self.fillData.keys():
                 tsEnd[key] = datime2tsDot(self.fillData[key][13].strip())
             return tsEnd
         else:

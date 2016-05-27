@@ -34,6 +34,7 @@ import numpy as np
 import datetime as dt
 import time
 
+
 ## Fill
 #filesDefault = ['/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604222046_6.hd5',
                 #'/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604221208_5.hd5'
@@ -46,15 +47,24 @@ import time
 #filesDefault = ['/scr1/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604281749_23.hd5',
                 #'/scr1/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604290227_24.hd5'
                 #]
-filesDefault = ['/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605061909_0.hd5',
-                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605070336_1.hd5',
-                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605071202_2.hd5',
-                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605072027_3.hd5',
+                
+#Fill 4895
+filesDefault = [
+                #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605061909_0.hd5',
+                #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605070336_1.hd5',
+                #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605071202_2.hd5',
+                #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605072027_3.hd5',
                 '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605080453_4.hd5',
                 '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605081319_5.hd5',
-                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605082145_6.hd5',
-                
+                #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605082145_6.hd5',
                 ]
+# Fill 4910
+#filesDefault = [
+                ##'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605092303_9.hd5',
+                ##'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605100729_10.hd5',
+                #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605101555_11.hd5',
+                #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605110021_12.hd5'
+                #]
 
 
 plotColors = [ROOT.kBlack, ROOT.kBlue, ROOT.kRed, ROOT.kGreen, ROOT.kPink]  

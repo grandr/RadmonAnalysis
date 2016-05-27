@@ -30,6 +30,7 @@ def get_filelist(datadir, pattern, fromto):
 #=============================
 
 def utc2local(ts_utc):
+    os.environ['TZ'] = 'Europe/Zurich'
     from_zone = tz.gettz('UTC')
     to_zone = tz.gettz(os.environ['TZ'])
 
@@ -44,6 +45,7 @@ def utc2local(ts_utc):
 #=============================
 
 def local2utc(ts_local):
+    os.environ['TZ'] = 'Europe/Zurich'
     utc = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(ts_local))
     return int(time.mktime(time.strptime( utc, "%Y-%m-%d %H:%M:%S")))
 
@@ -53,6 +55,7 @@ def timepar2ts(t):
     """
     Convert time parameter YYMMDD[HHMMSS] to timestamp
     """
+    os.environ['TZ'] = 'Europe/Zurich'
     dummy = t
     if len(t) < 6:
         print "Wrong time parameter: " + str(t)
