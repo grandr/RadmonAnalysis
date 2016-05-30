@@ -31,9 +31,10 @@ from xconfig import *
 
 import tables
 import numpy as np
-import datetime as dt
 import time
-
+from datetime import datetime
+from dateutil import tz
+os.environ['TZ'] = 'Europe/Zurich'
 
 ## Fill
 #filesDefault = ['/home/data/RadMonData/RadmonHd5/2016/7ce07db4-aff7-41f1-8124-21ae4741c468_1604222046_6.hd5',
