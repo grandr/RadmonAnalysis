@@ -15,11 +15,14 @@ Fields of interest
 
 import sys, os
 from xutils import *
+from dateutil import tz
+
 
 class FillReport:
     
     def __init__(self, fileName):
         
+        os.environ['TZ'] = 'Europe/Zurich'
         self.fillData = {}
         try:
             file = open(fileName, 'r')
@@ -84,12 +87,18 @@ class FillReport:
         if fillNo is None:
             dt = {}
             for fill in self.fillData.keys():
-                hours, dummy, minutes, dummy = self.fillData[key][2].strip().split()
-                dt[key] = int(minutes) * 60 + int(hours) * 3600 
+                try:
+                    hours, dummy, minutes, dummy = self.fillData[key][2].strip().split()
+                    dt[key] = int(minutes) * 60 + int(hours) * 3600 
+                except:
+                    dt[key] = -1
             return dt
         else:
-            hours, dummy, minutes, dummy = self.fillData[str(fillNo)][2].strip().split()
-            return int(minutes) * 60 + int(hours) * 3600 
+            try:
+                hours, dummy, minutes, dummy = self.fillData[str(fillNo)][2].strip().split()
+                return int(minutes) * 60 + int(hours) * 3600 
+            except:
+                return -1
     
     def getFillField(self, fillNo = None):
         """
@@ -110,10 +119,16 @@ class FillReport:
         if fillNo is None:
             beam = {}
             for fill in self.fillData.keys():
-                beam[key] = float(self.fillData[key][15].strip())
-                return beam
+                try:
+                    beam[key] = float(self.fillData[key][15].strip())
+                except:
+                    beam[key] = -1
+            return beam
         else:
-            return float(self.fillData[str(fillNo)][15].strip())
+            try:
+                return float(self.fillData[str(fillNo)][15].strip())
+            except:
+                return -1
  
     def getFillPeakInstLumi(self, fillNo = None):
         """

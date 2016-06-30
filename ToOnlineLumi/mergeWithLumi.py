@@ -24,7 +24,7 @@ radmonLumiFilePattern = '/home/data/RadmonLumi/radmonLumi__XXX__.root'
 fillReportName = '/home/grandr/cms/Bril/Analysis/ToOnlineLumi/FillReport_1446656923991.xls'
 
 # temporary fix (rate higher than this value means that detector is being turned on)
-rateMax = 25000. 
+rateMax = 100000. 
 
 lRange = 2.
 

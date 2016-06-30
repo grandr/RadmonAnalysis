@@ -10,7 +10,6 @@ from xutils import *
 from fillReport import *
 import glob
 import tables 
-import tables 
 
 dataTables = ['radmonraw', 'radmonlumi', 'radmonflux']
 

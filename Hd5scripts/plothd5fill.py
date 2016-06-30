@@ -5,18 +5,18 @@ Plot lumi/flux/rate from hd5 files
 Usage (at root prompt)
 TPython::LoadMacro("plothd5fill.py");
 Hd5fill f;
-f.setFillNo(4947);
+f.setFillNo(4937);
 
 f.plotLumi();
 
 f.setTimeLimits(start, end)
 # start/end format = "YYYY-MM-DD HH:MM"
 
-f.fillRateGraphs()
-f.plotRate(id)
+f.fillRateGraphs();
+f.plotRate(id);
 
 f.fillFluxGraphs();
-f.plotFluxAll()
+f.plotFluxAll();
 
 
 """
@@ -187,7 +187,7 @@ class Hd5fill:
         self.c = ROOT.TCanvas("c", "Lumi, Fill " +   str(fillno) , 800, 600)
         self.gLumi.Draw("AL")
         self.gLumi.GetXaxis().SetTimeFormat(self.timeFormat)
-        self.gLumi.GetXaxis().SetTimeFormat(self.timeFormat)
+        self.gLumi.GetXaxis().SetTimeDisplay(1)
 
         self.gLumi.SetLineColor(ROOT.kBlue)
 

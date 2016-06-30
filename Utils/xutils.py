@@ -11,6 +11,7 @@ import glob
 
 from dateutil import tz
 
+
 def get_filelist(datadir, pattern, fromto):
     """
     Get list of files matching pattern (traversing subdirectories) in the given time interval
@@ -72,7 +73,10 @@ def datime2ts(dt, offset = 0):
     """
     Convert date/time to timestamp with offset in hours
     """
-    date, tme = dt.split()
+    try:
+        date, tme = dt.split()
+    except:
+        return -1
     year, month, day = date.split('-')
     hms =  tme.split(':')
 
@@ -100,7 +104,10 @@ def datime2tsDot(dt, offset = 0):
     Convert date/time to timestamp  (Dattime format
     YYYY.MM.DD HH:MM:SS
     """
-    date, tme = dt.split()
+    try:
+        date, tme = dt.split()
+    except:
+        return -1
     year, month, day = date.split('.')
     hms =  tme.split(':')
 
@@ -127,7 +134,12 @@ def int2bin(n, count=16):
     """
     return "".join([str((n >> y) & 1) for y in range(count-1, -1, -1)])
 
-
+#===================================================================
+def ts2datime(ts, offset = 0, format = "%Y-%m-%d %H:%M:%S"):
+    dtime =  datetime.fromtimestamp(ts + 3600*offset)
+    return dtime.strftime(format)
+ 
+#=================================================================== 
 def status2bitset(n):
     """
     returns list bits of integer n

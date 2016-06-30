@@ -4,22 +4,25 @@ Plot radmon rates for particular fill
 Try various operations with running sums
 Usage (at root prompt)
 TPython::LoadMacro("radmonFills.py");
-RadmonFills f(4224);
+RadmonFills f;
+f.initFill(4947);
+f.drawRate(12);
 """
 
 import sys, os
 #from ROOT import *
 import ROOT
 import math
+sys.path.append("../Utils/")
 from xutils import *
 from xconfig import *
 
 from fillReport import *
 import numpy as np
 
-#radmonFillPattern = '/home/data/RadMonData/RadmonFills/radmon__XXX__.root'
-#radmonFillPattern = 'run/media/grandr/ADATA/RadMonData/RadmonFills/radmon__XXX__.root'
-#fillReportName = '/home/grandr/cms/Bril/Analysis/ToOnlineLumi/FillReport_1446656923991.xls'
+from dateutil import tz
+os.environ['TZ'] = 'Europe/Zurich'
+
 
 totalMinutes = 30
 
@@ -29,12 +32,12 @@ class RadmonFills:
         pass
 
     
-    def init(self, fill):
+    def initFill(self, fill):
         
         self.fill = fill
         #radmonFillPattern = '/home/data/RadMonData/RadmonFills/radmon__XXX__.root'
-        radmonFillPattern = '/run/media/grandr/ADATA/RadMonData/RadmonFills/radmon__XXX__.root'
-        fillReportName = '/home/grandr/cms/Bril/Analysis/ToOnlineLumi/FillReport_1446656923991.xls'
+        radmonFillPattern = '/scr1/RadmonFills/2016/radmon__XXX__.root'
+        fillReportName = '../Config/FillReport.xls'
         
         self.secsPerBin = 10
         self.minutesMargin = 10
@@ -63,12 +66,13 @@ class RadmonFills:
     def drawRate(self, indx):
         
         #Book 2D histo
-        #self.hrate = ROOT.TH2D("hrate" + str(indx), "Rate for index " + str(indx) + ", fill " + str(self.fill), self.binsX, self.xmin, self.xmax, self.binsY, 0., 0.)
-        self.hrate = ROOT.TH2D("hrate" + str(indx), "Rate for index " + str(indx) + ", fill " + str(self.fill), self.binsX, 0., 0., self.binsY, 0., 0.)
+        self.hrate = ROOT.TH2D("hrate" + str(indx), "Rate for index " + str(indx) + ", fill " + str(self.fill), self.binsX, self.xmin, self.xmax, self.binsY, 0., 0.)
+        #self.hrate = ROOT.TH2D("hrate" + str(indx), "Rate for index " + str(indx) + ", fill " + str(self.fill), self.binsX, 0., 0., self.binsY, 0., 0.)
         self.hrate.GetXaxis().SetTimeDisplay(1)
         self.hrate.GetXaxis().SetTimeFormat("%H:%M")
         self.hrate.SetBit(ROOT.TH1.kCanRebin)
-            
+        
+
         tree = self.f.Get("t")
         for i in range(0, tree.GetEntries()) :
 	    nb = tree.GetEntry(i)
@@ -76,6 +80,16 @@ class RadmonFills:
 		continue
             self.hrate.Fill(tree.tstamp, tree.rates[5])
         
+        #xaxis = self.hrate.GetXaxis()
+        #nlabels = 20
+        #j = 1
+        #for i in range(1, self.binsX):
+            #if i == j*self.binsX/nlabels:
+                #t = xaxis.GetBinCenter(i)
+                #xaxis.SetBinLabel(i, ts2datime(t, 0, "%H:%M"))
+                #j += 1
+        #xaxis.LabelsOption("h")
+        #xaxis.SetTickSize(0.01)
         self.hrate.Draw()
     
     def drawRunningSum (self, indx, minutes):
