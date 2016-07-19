@@ -7,7 +7,7 @@ Usage (at root prompt)
 TPython::LoadMacro("lumiRateGraphs.py");
 LumiRateGraphs p;
 p.makeGraphs();
-p.drawGraph("pfib");
+p.drawGraph("mfit");
 p.fitGraphs();
 p.printCalibrationData();
 
@@ -27,7 +27,7 @@ from xutils import *
          ##4560, 4569]
          
 #2016
-radmonLumiFilePattern = '/home/data/RadmonLumi/2016/radmonLumi*.root'
+radmonLumiFilePattern = '/scr1/RadMonLumi/2016/OnlineLumi/RadmonLumiFills/radmonLumi*.root'
 # Fills to use
 fills = [4888, 4889, 4890, 4892, 4895, 4896, 4905, 4906, 4910, 4915, 4919, 4924, 4925, 4926, 4930, 4935, 4937, 4942, 4945, 4947, 4953, 4954, 4956, 4958, 4960, 4961, 4964, 4965, 4976, 4979, 4980, 4984, 4985, 4988, 4990, 5005, 5013, 5017, 5020, 5021, 5024, 5026, 5027, 5028, 5029, 5030, 5038, 5043, 5045, 5048, 5052]
 
