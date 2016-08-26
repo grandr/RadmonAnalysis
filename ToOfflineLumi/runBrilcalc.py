@@ -12,7 +12,7 @@ from fillReport import *
 
 fillReportName = '../Config/FillReport.xls'
 normtag = '/afs/cern.ch/user/l/lumipro/public/normtag_file/normtag_DATACERT.json'
-outdir = '/scr1/RadMonLumi/2016/OfflineLumi/FillsCsv/'
+outdir = '/scr1/RadMonLumi/2016/OfflineLumi/LumiFillsCsv/'
 fillsPattern = 'brilcalcLumiFill'
 commandPattern = "brilcalc lumi --tssec --normtag __NORMTAG__ --byls -f __FILL__ -o __OUTDIR__" + fillsPattern + "__FILL__.csv"
 
@@ -32,7 +32,7 @@ def main():
 
     nProccessed = 0
     nSkipped = 0 
-    for fill in fillStarted.keys():
+    for fill in sorted(fillStarted.keys()):
         if int(fill) in fillsDone:
             print "Fill", fill, "is already processed. Skipping..."
             nSkipped += 1

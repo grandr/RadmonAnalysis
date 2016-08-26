@@ -1,0 +1,7 @@
+List of fills from
+https://cmswbm.web.cern.ch/cmswbm/cmsdb/servlet/FillReport
+
+
+Offline lumi
+- Get csv files from brilcalc
+ToOfflineLumi/runBrilcalc.py
