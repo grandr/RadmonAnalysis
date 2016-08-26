@@ -11,10 +11,10 @@ from xutils import *
 from fillReport import *
 
 fillReportName = '../Config/FillReport.xls'
-normtag = '/afs/cern.ch/user/l/lumipro/public/normtag_file/normtag_DATACERT.json'
-outdir = '/scr1/RadMonLumi/2016/OfflineLumi/LumiFillsCsv/'
+normtag = '/afs/cern.ch/user/l/lumipro/public/normtag_file/normtag_BRIL.json'
+outdir = '/scr1/RadMonLumi/2016/OfflineLumi/Brilcalc_normtag_BRIL/'
 fillsPattern = 'brilcalcLumiFill'
-commandPattern = "brilcalc lumi --tssec --normtag __NORMTAG__ --byls -f __FILL__ -o __OUTDIR__" + fillsPattern + "__FILL__.csv"
+commandPattern = "brilcalc lumi --tssec -u hz/ub --normtag __NORMTAG__ --byls -f __FILL__ -o __OUTDIR__" + fillsPattern + "__FILL__.csv"
 
 def main():
     
@@ -39,7 +39,7 @@ def main():
             continue
         command = commandPattern.replace('__FILL__', str(fill)).replace('__NORMTAG__', normtag).replace('__OUTDIR__', outdir)
         nProccessed += 1
-        print "Processing fill " + str(fill) + "..."
+        print "Processing fill " + str(fill) + "..." + "Output goes to " + outdir 
         #print command
         os.system(command)   
 
