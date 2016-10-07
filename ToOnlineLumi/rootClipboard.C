@@ -1,0 +1,28 @@
+//Chain with radmonlumi files
+TChain ch("t");
+ch.Add("/scr1/RadMonLumi/2016/OnlineLumi/RadmonLumiFills/*.root");
+
+// Stable beam cut
+TCut stable = "tstamp>fillStable&&tstamp<fillEnd";
+// Start of the fill cut
+TCut warm = "(tstamp-fillStable)>120*60";
+TCut rt = "rates[12]/bestLumi <5.5 && rates[12]/bestLumi >3"
+
+
+TCut magnetOn = "bField>3.7";
+TCut magnetOff = "bField<0.03";
+
+// lumi vs rates
+
+t->Draw("bestLumi:rates[5]", warm&&stable&&magnetOn&&"bunchSpacing==25")
+
+//Summary pic
+t->Draw("bestLumi:rates[5]", warm&&stable)
+t->Draw("bestLumi:rates[5]", warm&&stable&&"fill==4560", "same")
+t->Draw("bestLumi:rates[5]", warm&&stable&&"fill==4569", "same")
+
+//Warm-up
+t->Draw("bestLumi:rates[5]", warm&&stable&&"fill!=4560&&fill!=4569")
+t->Draw("bestLumi:rates[5]", !warm&&stable&&"fill!=4560&&fill!=4569", "same")
+
+
