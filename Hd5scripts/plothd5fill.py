@@ -5,7 +5,7 @@ Plot lumi/flux/rate from hd5 files
 Usage (at root prompt)
 TPython::LoadMacro("plothd5fill.py");
 Hd5fill f;
-f.setFillNo(4937);
+f.setFillNo(5267);
 
 f.plotLumi();
 
@@ -121,7 +121,6 @@ class Hd5fill:
                         self.gMinusZ.SetPoint(nm, float(ts), float(item['minusz']))
                         np = self.gPlusZ.GetN()
                         self.gPlusZ.SetPoint(np, float(ts), float(item['plusz']))
-
                         
         # Plot graphs
         self.c = ROOT.TCanvas("cp", "Lumi, Fill " +   str(self.fill) , 800, 600)
@@ -229,10 +228,14 @@ class Hd5fill:
                         if self.fill > 0   and  item['fillnum'] != self.fill:
                             continue
                         
-                        id = item['channelid'] 
-                        n = self.rateGraphs[id].GetN()
-                        self.rateGraphs[id].SetPoint(n, float(ts), float(item['rate']))
-                        
+                        if len(item['rate']) == 1:
+                            id = item['channelid'] 
+                            n = self.rateGraphs[id].GetN()
+                            self.rateGraphs[id].SetPoint(n, float(ts), float(item['rate']))
+                        else:
+                            for i in range(len(self.indx)):  
+                                n = self.rateGraphs[i].GetN()
+                                self.rateGraphs[i].SetPoint(n, float(ts), float(item['rate'][i]))                            
  
     def plotRate(self, id):
         # Plot graphs
