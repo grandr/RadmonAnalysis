@@ -10,11 +10,14 @@ sys.path.append("../Utils/")
 from xutils import *
 from fillReport import *
 
-fillReportName = '../Config/FillReport.xls'
+#fillReportName = '../Config/FillReport.xls'
+fillReportName = '../Config/FillReportPPb_1479721242035.xls'
 normtag = '/afs/cern.ch/user/l/lumipro/public/normtag_file/normtag_BRIL.json'
 outdir = '/scr1/RadMonLumi/2016/OfflineLumi/Brilcalc_normtag_BRIL/'
-fillsPattern = 'brilcalcLumiFill'
-commandPattern = "brilcalc lumi --tssec -u hz/ub --normtag __NORMTAG__ --byls -f __FILL__ -o __OUTDIR__" + fillsPattern + "__FILL__.csv"
+#fillsPattern = 'brilcalcLumiFill'
+fillsPattern = 'brilcalcLumiFillNoNormtag'
+#commandPattern = "brilcalc lumi --tssec -u hz/ub --normtag __NORMTAG__ --byls -f __FILL__ -o __OUTDIR__" + fillsPattern + "__FILL__.csv"
+commandPattern = "brilcalc lumi --tssec -u hz/ub  --byls -f __FILL__ -o __OUTDIR__" + fillsPattern + "__FILL__.csv"
 
 def main():
     
@@ -37,7 +40,8 @@ def main():
             print "Fill", fill, "is already processed. Skipping..."
             nSkipped += 1
             continue
-        command = commandPattern.replace('__FILL__', str(fill)).replace('__NORMTAG__', normtag).replace('__OUTDIR__', outdir)
+        #command = commandPattern.replace('__FILL__', str(fill)).replace('__NORMTAG__', normtag).replace('__OUTDIR__', outdir)
+        command = commandPattern.replace('__FILL__', str(fill)).replace('__OUTDIR__', outdir)
         nProccessed += 1
         print "Processing fill " + str(fill) + "..." + "Output goes to " + outdir 
         #print command
