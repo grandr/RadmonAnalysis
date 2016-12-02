@@ -21,37 +21,116 @@ for key in dummy.keys():
 fillReport = FillReport("../Config/FillReport.xls")
 
 t = ROOT.TChain("t")
-t.Add("/scr1/RadMonLumi/2016/OfflineLumi/Radmon_normtag_BRIL/*root");
+t.Add("/scr1/RadMonLumi/2016/OfflineLumi/Radmon_normtag_BRIL/*.root");
 
 #Cuts
 deltaWarming = 1*60*60
+
+def meanRackFluenceVsLumi():
+    
+    """
+    mean neutron fluence near Racks vs offline lumi
+    """
+    
+    fillsRange = [4850, 5400]
+    dets = ["PFXT"]#, "MNXT", "MFXT"]
+
+    nbins = 1000
+
+    
+    hflxlumi = ROOT.TH2D("hflxlumi", "mean flux vs lumi", nbins, 0., 16000., nbins, 0., 10000.)
+    ROOT.SetOwnership(hflxlumi, False)
+    
+    tflxlumi = ROOT.TProfile("tflxlumi", "mean flux vs lumi", nbins, 0., 16000.)
+    ROOT.SetOwnership(tflxlumi, False)
+    tflxlumiplt = ROOT.TProfile("tflxlumiplt", "mean flux vs PLT lumi", nbins, 0., 16000.)
+    ROOT.SetOwnership(tflxlumiplt, False)    
+    tflxlumihf = ROOT.TProfile("tflxlumihf", "mean flux vs HF  lumi", nbins, 0., 16000.)
+    ROOT.SetOwnership(tflxlumihf, False)  
+
+
+    # Filling
+    for i in range(0, t.GetEntries()) :
+        nb = t.GetEntry(i)
+        if nb < 0:
+            continue
+    
+    
+        if t.beamStatus[:-1] != "STABLE BEAMS":
+            continue
+        if t.tstamp > t.fillEnd:
+            continue
+        if t.tstamp - t.fillStable < deltaWarming:
+            continue
+    
+#     if i > 10000:    break
+
+        meanflux = 0
+        ndet = 0
+        for det in dets:
+            index = int(detInfo[det.lower()][0])
+            cf = float(detInfo[det.lower()][2])
+            if t.rates[index] > 0:
+                meanflux += t.rates[index] * cf
+                ndet += 1
+        if ndet > 0:
+            meanflux /= ndet
+    
+        if t.lumi > 0 and meanflux>0:
+            hflxlumi.Fill(t.lumi, meanflux)
+            tflxlumi.Fill(t.lumi, meanflux)
+            if t.lumiSource[:-1] == "HFOC":
+                tflxlumihf.Fill(t.lumi, meanflux)
+            if t.lumiSource[:-1] == "PLTZERO":
+                tflxlumiplt.Fill(t.lumi, meanflux)
+   
+    prflxlumi = hflxlumi.ProfileX("prflxlumi", 1, -1, "s")
+    ROOT.SetOwnership(prflxlumi, False)
+
+    #return hrfill, prfill, hflxlumi, hflxplt, hflxhf
+    return hflxlumi, prflxlumi, tflxlumi, tflxlumihf,  tflxlumiplt
+    
+    
 
 def meanFluenceVsLumi():
     """
     mean neutron fluence vs offline lumi
     """
     
-    fillsRange = [4850, 5250]
+    fillsRange = [4850, 5400]
     dets = ["PFIT", "PFIB", "PNIT", "PNIB", "MNIB", "MNIT"]
+    #dets = ["PFIT", "PFIB", "PNIT", "PNIB"]
 
     nbins = 1000
 
-    hrfill = ROOT.TH2D("hrfill", "mean flux over lumi", 
-                  (fillsRange[1] - fillsRange[0]), fillsRange[0], fillsRange[1], 1000, 0., 7.)
+    histos = {}
+    profx = {}
+    
+    hrfill = ROOT.TProfile("hrfill", "ratio mean flux over lumi vs fill No", 
+                  (fillsRange[1] - fillsRange[0]), fillsRange[0], fillsRange[1], 's')
+    histos['hrfill'] = hrfill
     ROOT.SetOwnership(hrfill, False)
-    hrfillplt = ROOT.TH2D("hrfillplt", "mean flux over PLTZERO lumi", 
-                  (fillsRange[1] - fillsRange[0]), fillsRange[0], fillsRange[1], 1000, 0., 7.)
+    
+    hrfillplt = ROOT.TProfile("hrfillplt", "ratio mean flux over PLTZERO lumi vs fill No", 
+                  (fillsRange[1] - fillsRange[0]), fillsRange[0], fillsRange[1], 's')
     ROOT.SetOwnership(hrfillplt, False)
-    hrfillhf = ROOT.TH2D("hrfillhf", "mean flux over HFOC lumi", 
-                  (fillsRange[1] - fillsRange[0]), fillsRange[0], fillsRange[1], 1000, 0., 7.)
+    histos['hrfillplt'] = hrfillplt
+    
+    hrfillhf = ROOT.TProfile("hrfillhf", "ratio mean flux over HFOC lumi vs fill No", 
+                  (fillsRange[1] - fillsRange[0]), fillsRange[0], fillsRange[1], 's')
     ROOT.SetOwnership(hrfillhf, False)
-    hflxlumi = ROOT.TH2D("hflxlumi", "mean flux vs lumi", nbins, 0., 15000., nbins, 0., 60000.)
+    histos['hrfillhf'] = hrfillhf
+    
+    hflxlumi = ROOT.TProfile("hflxlumi", "mean flux vs lumi", nbins, 0., 16000.)
     ROOT.SetOwnership(hflxlumi, False)
-    hflxplt = ROOT.TH2D("hflxplt", "mean flux vs PLT ZERO lumi", nbins, 0., 15000., nbins, 0., 60000.)
+    histos['hflxlumi'] = hflxlumi
+    
+    hflxplt = ROOT.TProfile("hflxplt", "mean flux vs PLT ZERO lumi", nbins, 0., 16000.)
+    histos['hflxplt'] = hflxplt
     ROOT.SetOwnership(hflxplt, False)
-    hflxhf = ROOT.TH2D("hflxhf", "mean flux vs HFOC lumi", nbins, 0., 15000., nbins, 0., 60000.)
+    hflxhf = ROOT.TProfile("hflxhf", "mean flux vs HFOC lumi", nbins, 0., 16000.)
+    histos['hflxhf'] = hflxhf
     ROOT.SetOwnership(hflxhf, False)
-
 
     # Filling
     for i in range(0, t.GetEntries()) :
@@ -90,57 +169,37 @@ def meanFluenceVsLumi():
                 hflxplt.Fill(t.lumi, meanflux)
                 hrfillplt.Fill(t.fill, meanflux/t.lumi)
 
-    prfill = hrfill.ProfileX("prfill", 1, -1, "s")
-    ROOT.SetOwnership(prfill, False)
-    prfillplt = hrfillplt.ProfileX("prfillplt", 1, -1, "s")
-    ROOT.SetOwnership(prfillplt, False)
-    prfillhf = hrfillhf.ProfileX("prfillhf", 1, -1, "s")
-    ROOT.SetOwnership(prfillplt, False)
     
-    #Mean flux vs hf and plt lumi
-    ROOT.gStyle.SetOptStat(0000);
-    c1 = ROOT.TCanvas("c1", "c1", 800, 800)
-    ROOT.SetOwnership(c1, False)
-    c1.Divide(1,2)
-    c1.cd(1)
-    hflxplt.SetLineColor(ROOT.kRed)
-    hflxplt.SetMarkerColor(ROOT.kRed)
-    hflxplt.Draw()
-    hflxhf.SetLineColor(ROOT.kBlue)
-    hflxhf.SetMarkerColor(ROOT.kBlue)
-    hflxhf.Draw("same")
-    c1.cd(2)
-    prfillplt.SetLineColor(ROOT.kRed)
-    prfillplt.SetMarkerColor(ROOT.kRed)
-    prfillhf.SetLineColor(ROOT.kBlue)    
-    prfillhf.SetMarkerColor(ROOT.kBlue)    
-    prfillplt.Draw()
-    prfillhf.Draw("same")
+    ##Mean flux vs hf and plt lumi
+    #ROOT.gStyle.SetOptStat(0000);
+    #c1 = ROOT.TCanvas("c1", "c1", 600, 400)
+    #ROOT.SetOwnership(c1, False)
+    #hflxplt.SetLineColor(ROOT.kRed)
+    #hflxplt.SetMarkerColor(ROOT.kRed)
+    #hflxplt.Draw()
+    #hflxhf.SetLineColor(ROOT.kBlue)
+    #hflxhf.SetMarkerColor(ROOT.kBlue)
+    #hflxhf.Draw("same")
+
         
-    #Mean flux vs lumi
-    c2 = ROOT.TCanvas("c2", "c2", 1000, 800)
-    ROOT.SetOwnership(c2, False)
-    c2.Divide(1,3)
-    c2.cd(1)
-    hflxlumi.Draw()
-    c2.cd(2)
-    hrfill.Draw()
-    c2.cd(3)
-    prfill.Draw()
-    
-    print "Done"
+    ##Mean flux vs lumi
+    #c2 = ROOT.TCanvas("c2", "c2", 1000, 800)
+    #ROOT.SetOwnership(c2, False)
+    #c2.Divide(1,2)
+    #c2.cd(1)
+    #hflxlumi.Draw()
+    #c2.cd(2)
+    #hrfill.Draw()
 
-
-
-    #return hrfill, prfill, hflxlumi, hflxplt, hflxhf
-    return
+    print "Histograms: histos[", ','.join(histos.keys()), "]"
+    return histos
 
 def ratio2mean():
     """
     ratios of fluence for single detector to mean fluence vs fill nmber
     """
     
-    fillsRange = [4850, 5250]
+    fillsRange = [4850, 5400]
     detRef = ["PFIT", "PFIB", "PNIT", "PNIB", "MNIB", "MNIT"]
     print "Ratio to mean flux of ", ','.join(detRef)
     print "Warming cut =", deltaWarming/60./60., " hours"
@@ -205,7 +264,15 @@ def ratio2mean():
     print "Histos (histos[det]) and profiles (profx[det]) available for", ','.join(histos.keys())
     return histos, profx
     
-   
+def printFills():
+    """
+    Print list of fills in FillReport.xls 
+    """
+    fills = fillReport.getFillCreationTime()
+        
+    fillsNo = '[' + ','.join(sorted(fills.keys())) + ']'
+    print fillsNo
+        
 ##===========================================================
 #if __name__ == "__main__": 
     #meanFluenceVsLumi()
