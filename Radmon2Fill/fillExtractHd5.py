@@ -26,8 +26,8 @@ filters['radmonflux'] = """(fillnum==%d)"""
 # We have about 8 hours per file. Let's double this value to be safe
 hoursBefore = 16
 
-#fillReportName = '../Config/FillReport.xls'
-fillReportName = '../Config/FillReportPPb_1479721242035.xls'
+fillReportName = '../Config/FillReport.xls'
+#fillReportName = '../Config/FillReportPPb_1479721242035.xls'
 fillsPattern = '/scr1/RadmonHd5/Fills2016/radmon*.hd5'
 dataFilesPattern = '/scr1/RadmonHd5/2016/*.hd5'
 dataFiles = {}

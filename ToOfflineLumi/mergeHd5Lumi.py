@@ -16,12 +16,12 @@ import numpy as np
 import math
 
 
-#fillReportName = '../Config/FillReport.xls'
-fillReportName = '../Config/FillReportPPb_1479721242035.xls'
-#csvPattern = '/scr1/RadMonLumi/2016/OfflineLumi/Brilcalc_normtag_BRIL/brilcalcLumiFill__FILL__.csv'
-csvPattern = '/scr1/RadMonLumi/2016/OfflineLumi/Brilcalc_normtag_BRIL/brilcalcLumiFillNoNormtag__FILL__.csv'
+fillReportName = '../Config/FillReport.xls'
+#fillReportName = '../Config/FillReportPPb_1479721242035.xls'
+csvPattern = '/scr1/RadMonLumi/2016/OfflineLumi/Brilcalc_normtag_BRIL/brilcalcLumiFill__FILL__.csv'
+#csvPattern = '/scr1/RadMonLumi/2016/OfflineLumi/Brilcalc_normtag_BRIL/brilcalcLumiFillNoNormtag__FILL__.csv'
 hd5Pattern = '/scr1/RadmonHd5/Fills2016/radmon__FILL__.hd5'
-rootFilePattern = '/scr1/RadMonLumi/2016/OfflineLumi/Radmon_normtag_BRIL/radmonLumi_NoNormtag__FILL__.root'
+rootFilePattern = '/scr1/RadMonLumi/2016/OfflineLumi/Radmon_normtag_BRIL/radmonLumi_normtag_BRIL___FILL__.root'
 
 
 gROOT.ProcessLine(\
@@ -131,16 +131,27 @@ def mergeHd5Lumi():
                         for i in range(16):
                             hd5rates[key].append([])                    
             
-                    if len(item['rate']) == 1:   # old format
-                        id = int(item['channelid']) 
-                        dataOK = status2bitset(int(item['status']))[0] 
-                        if dataOK:
-                            hd5rates[key][id].append(float(item['rate']))
-                    else:
+                    if hasattr(item['rate'], "__len__"):  #New format
                         for i in range(16):  
                             dataOK =  status2bitset(int(item['status'][i]))[0]
                             if dataOK:
                                 hd5rates[key][i].append(float(item['rate'][i]))
+                    else:  #Old format
+                        id = int(item['channelid']) 
+                        dataOK = status2bitset(int(item['status']))[0] 
+                        if dataOK:
+                            hd5rates[key][id].append(float(item['rate']))                    
+                    
+                    #if len(item['rate']) == 1:   # old format
+                        #id = int(item['channelid']) 
+                        #dataOK = status2bitset(int(item['status']))[0] 
+                        #if dataOK:
+                            #hd5rates[key][id].append(float(item['rate']))
+                    #else:
+                        #for i in range(16):  
+                            #dataOK =  status2bitset(int(item['status'][i]))[0]
+                            #if dataOK:
+                                #hd5rates[key][i].append(float(item['rate'][i]))
                         
         try: 
             f.close()

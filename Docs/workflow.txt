@@ -1,7 +1,28 @@
 List of fills from
 https://cmswbm.web.cern.ch/cmswbm/cmsdb/servlet/FillReport
-
-
+==================
 Offline lumi
 - Get csv files from brilcalc
 ToOfflineLumi/runBrilcalc.py
+
+====
+Extract radmon data from raw data (one file per fill)
+Radmon2Fill/fillExtractHd5.py
+Input pattern /scr1/RadmonHd5/2016/*.hd5
+Output pattern /scr1/RadmonHd5/Fills2016/radmon*.hd5
+
+======
+Merge hd5 files and lumi
+ToOfflineLumi/mergeHd5Lumi.py
+Input files 
+csv with lumi: /scr1/RadMonLumi/2016/OfflineLumi/Brilcalc_normtag_BRIL/brilcalcLumiFill<fillno>.csv
+hd5 files with radmon data: /scr1/RadmonHd5/Fills2016/radmon<fillno>.hd5
+Output
+
+
+
+====
+Script rates vs lumi
+ToOfflineLumi/miscTestsOffline.py   
+input files 
+/scr1/RadMonLumi/2016/OfflineLumi/Radmon_normtag_BRIL/radmonLumi_normtag_BRIL<fillno>.root
