@@ -28,7 +28,7 @@ radmonFilePattern = 'HFRadmonData*'
 radmonLumiFilePattern = '/home/data/RadMonData/RadMonLumiOffline/radmonlumi__XXX__.root'
 
 # temporary fix (rate higher than this value means that detector is being turned on)
-rateMax = 50000. 
+rateMax = 40000. 
 
 lRange = 2.
 

@@ -62,8 +62,10 @@ t.Add(radmonLumiFilePattern)
 class LumiRateProfiles:
     def __init__(self):
 	self.yTitle = "Lumi"
+	self.xTitle = "Rate"
 	self.p0fixed = 0
 	self.deltaTs = deltaTs
+	self.calibrationData = {}
 
 
     def setDeltaTs(self, delta):
@@ -77,7 +79,9 @@ class LumiRateProfiles:
 	self.profs = {}
 	
 	for det in dets:
-            self.profs[det] = ROOT.TProfile(det, det.upper() +": Lumi vs rate ", nbins, 0., xmax[det])
+            self.profs[det] = ROOT.TProfile(det, det.upper() +": Lumi vs rate ", nbins, 0., xmax[det]) #, 's')
+            self.profs[det].GetYaxis().SetTitle(self.yTitle)
+            self.profs[det].GetXaxis().SetTitle(self.xTitle)
             ROOT.SetOwnership(self.profs[det], False)
 
 	#print "Fills used", fills
@@ -138,12 +142,11 @@ class LumiRateProfiles:
 	    except:
                 p0, p1, dp0, dp1 =  0., 0., 0., 0.
 	    
-	    self.calibrationData[key] = (str(dets[key]), str(p1), str(dp1), str(p0), str(dp0))
+	    self.calibrationData[key] = str(p1), str(dp1), str(p0), str(dp0)
 	    
 		
     def drawProfile(self, key):
 	ROOT.gStyle.SetOptFit(1111)
-	self.profs[key].GetYaxis().SetTitle(self.yTitle)
 	self.profs[key].Draw()
 
     def printCalibrationData(self):

@@ -55,8 +55,8 @@ filesDefault = [
                 #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605070336_1.hd5',
                 #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605071202_2.hd5',
                 #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605072027_3.hd5',
-                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605080453_4.hd5',
-                '/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605081319_5.hd5',
+                #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605080453_4.hd5',
+                #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605081319_5.hd5',
                 #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605082145_6.hd5',
                 ]
 # Fill 4910
@@ -67,7 +67,11 @@ filesDefault = [
                 #'/scr1/RadmonHd5/2016/022d7b58-1509-455f-90ff-90526090a267_1605110021_12.hd5'
                 #]
 
-
+filesDefault = [
+    #'/home/grandr/Downloads/radmon4888.hd5',
+    '/scr1/RadmonHd5/Fills2016/radmon5338.hd5'
+    ]
+    
 plotColors = [ROOT.kBlack, ROOT.kBlue, ROOT.kRed, ROOT.kGreen, ROOT.kPink]  
 
 class Hd5file:

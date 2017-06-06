@@ -22,6 +22,7 @@ fillReport = FillReport("../Config/FillReport.xls")
 
 t = ROOT.TChain("t")
 t.Add("/scr1/RadMonLumi/2016/OfflineLumi/Radmon_normtag_BRIL/*.root");
+#t.Add("/scr1/RadMonLumi/2016/OfflineLumi/Old/Radmon_normtag_BRIL/radmonLumi_normtag_BRIL*.root");
 
 #Cuts
 deltaWarming = 1*60*60
@@ -31,8 +32,8 @@ def meanRackFluenceVsLumi():
     """
     mean neutron fluence near Racks vs offline lumi
     """
-    
-    fillsRange = [4850, 5400]
+    print "Warming cut =", deltaWarming/60./60., " hours"
+    fillsRange = [4850, 5500]
     dets = ["PFXT"]#, "MNXT", "MFXT"]
 
     nbins = 1000
@@ -97,7 +98,9 @@ def meanFluenceVsLumi():
     mean neutron fluence vs offline lumi
     """
     
-    fillsRange = [4850, 5400]
+    print "Warming cut =", deltaWarming/60./60., " hours"
+    
+    fillsRange = [4850, 5500]
     dets = ["PFIT", "PFIB", "PNIT", "PNIB", "MNIB", "MNIT"]
     #dets = ["PFIT", "PFIB", "PNIT", "PNIB"]
 
@@ -137,7 +140,9 @@ def meanFluenceVsLumi():
         nb = t.GetEntry(i)
         if nb < 0:
             continue
-    
+        
+        #if t.fill > 5247:
+            #continue
     
         if t.beamStatus[:-1] != "STABLE BEAMS":
             continue
@@ -198,8 +203,8 @@ def ratio2mean():
     """
     ratios of fluence for single detector to mean fluence vs fill nmber
     """
-    
-    fillsRange = [4850, 5400]
+    print "Warming cut =", deltaWarming/60./60., " hours"
+    fillsRange = [4850, 5500]
     detRef = ["PFIT", "PFIB", "PNIT", "PNIB", "MNIB", "MNIT"]
     print "Ratio to mean flux of ", ','.join(detRef)
     print "Warming cut =", deltaWarming/60./60., " hours"

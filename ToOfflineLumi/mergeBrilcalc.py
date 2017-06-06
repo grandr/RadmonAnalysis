@@ -15,10 +15,14 @@ from ROOT import *
 
 
 fillReportName = '../Config/FillReport.xls'
-csvOfflinePattern = '/scr1/RadMonLumi/2016/OfflineLumi/LumiFillsCsv/brilcalcLumiFill__FILL__.csv'
-csvOnlinePattern = '/scr1/RadMonLumi/2016/OfflineLumi/LumiFillsCsv/brilcalcLumiFill__FILL__.csv'
+#csvOfflinePattern = '/scr1/RadMonLumi/2016/OfflineLumi/LumiFillsCsv/brilcalcLumiFill__FILL__.csv'
+#csvOnlinePattern = '/scr1/RadMonLumi/2016/OfflineLumi/LumiFillsCsv/brilcalcLumiFill__FILL__.csv'
+#rootFilePattern = '/scr1/RadMonLumi/2016/LumiCombined/lumiCombined__FILL__.root'
 
-rootFilePattern = '/scr1/RadMonLumi/2016/LumiCombined/lumiCombined__FILL__.root'
+csvOfflinePattern = '/home/data/RadMonLumi/2016/OfflineLumi/Old/Brilcalc_normtag_BRIL/Brilcalc_normtag_BRIL/brilcalcLumiFill__FILL__.csv'
+csvOnlinePattern = '/home/data/RadMonLumi/2016/OfflineLumi/Brilcalc_normtag_BRIL/brilcalcLumiFill__FILL__.csv'
+rootFilePattern = '/home/data/RadMonLumi/2016/OfflineLumi/tmp/lumiCombined__FILL__.root'
+
 
 collCutoff =  20
 idColl = 12
