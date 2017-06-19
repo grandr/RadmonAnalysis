@@ -21,11 +21,11 @@ hrs = 4
 #Minutes before/after fillStable/fillEnd
 deltaMinutes = 10
 
-fillReportName = '../Config/FillReport.xls'
+fillReportName = '../Config/FillReport17.xls'
 
-RadmonDataDir = '/scr1/RadMonData/'
+RadmonDataDir = '/scr1/RadMonData/2017/'
 radmonFilePattern = 'HFRadmonData*.root'
-radmonFillPattern = '/scr1/RadmonFills/2016/radmon*.root'
+radmonFillPattern = '/scr1/RadmonFills/2017/radmon*.root'
 
 gROOT.ProcessLine(\
 "struct FillData{\

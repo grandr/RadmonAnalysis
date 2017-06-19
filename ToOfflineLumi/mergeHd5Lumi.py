@@ -24,7 +24,7 @@ hd5Pattern = '/scr1/RadmonHd5/Fills2016/radmon__FILL__.hd5'
 rootFilePattern = '/scr1/RadMonLumi/2016/OfflineLumi/Radmon_normtag_BRIL/radmonLumi_normtag_BRIL___FILL__.root'
 
 
-gROOT.ProcessLine(\
+ROOT.gROOT.ProcessLine(\
 "struct RadmonLumiData{\
     Int_t fill;\
     Int_t fillStart;\
