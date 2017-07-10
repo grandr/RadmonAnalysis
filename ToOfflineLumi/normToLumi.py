@@ -13,13 +13,24 @@ sys.path.append("../Config/")
 from xconfig import *
 from fillReport import *
 
+
+#2016
 configFile = '../Config/detectors.ini'
 fillReportFile  = "../Config/FillReport.xls"
-deltaWarming = 0*60*60
 files = "/scr1/RadMonLumi/2016/OfflineLumi/Radmon_normtag_BRIL/*.root"
 #files = "/scr1/RadMonLumi/2016/OfflineLumi/Old/Radmon_normtag_BRIL/radmonLumi_normtag_BRIL*.root"
-
 fillsRange = [4850, 5500]
+
+#2017
+#configFile = '../Config/detectors17.ini'
+#fillReportFile  = "../Config/FillReport17.xls"
+#files = "/scr1/RadMonLumi/2017/OfflineLumi/Radmon_Root_normtag_BRIL/*.root"
+#fillsRange = [5690, 5840]
+
+
+deltaWarming = 2*60*60/3
+
+
 
 class NormToLumi:
     def __init__(self):
@@ -80,7 +91,8 @@ class NormToLumi:
         lumiUp = 16000
         nbins = 500
         
-        dets = ["PFIT", "PNIT", "PNIB", "MNIB", "MNIT"]
+        dets = ["PFIT", "PNIT", "PNIB", "MNIB", "MNIT"]  # 2016
+        #dets = ["PFIT", "PNIT", "PNIB", "MNIB", "MNIT", "MFIB"] # 2017
         #dets = ["PFXT", "MFXT", "MNXT"]
         
         calib = 1

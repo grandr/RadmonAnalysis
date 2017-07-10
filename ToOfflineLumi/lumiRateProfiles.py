@@ -27,9 +27,20 @@ import math
 #2016
 radmonLumiFilePattern = "/scr1/RadMonLumi/2016/OfflineLumi/Radmon_normtag_BRIL/*.root"
 fillReport = FillReport("../Config/FillReport.xls")
+#Everything 2016
+#fillsRange = [4850, 5460]
+#fillsRange = [4850, 5077]
+fillsRange = [5078, 5460]
+#fillsRange = [5078, 5380]
+#fillsRange = [5380, 5460]
 
+radmonLumiFilePattern = "/home/data/RadMonLumi/2017/OfflineLumi/Radmon_Root_normtag_BRIL/*.root"
+fillReport = FillReport("../Config/FillReport17.xls")
+fillsRange = [5690, 5840]
+
+#deltaTs = 2*60*60/3
 deltaTs = 1*60*60
-fillsRange = [4850, 5400]
+
 nbins = 1000
 #Name - index
 dets = {'pfxt','mfxt', 'mnxt', 'pfit', 'pnit', 'pfib', 'pnib', 'mnit', 'mfit', 'mnib', 'mfib'}
@@ -86,6 +97,7 @@ class LumiRateProfiles:
 
 	#print "Fills used", fills
 	print "deltaTs from the start of the fill=", self.deltaTs
+	print "Fills range", fillsRange
 	
 	for i in range(0, t.GetEntries()) :
 	    nb = t.GetEntry(i)
@@ -94,9 +106,12 @@ class LumiRateProfiles:
             
 	    #if t.fill not in fills:  # TODO Add fills excluded
 		#continue
+		
+            if t.fill <= fillsRange[0] or t.fill >= fillsRange[1]:
+                continue
             
             #===================Cuts============================
-            if t.beamStatus[:-1] != "STABLE BEAMS":
+            if "STABLE BEAMS" not in str(t.beamStatus):
                 continue            
             #Warmup
 	    if (t.tstamp - t.fillStable) <  self.deltaTs:
